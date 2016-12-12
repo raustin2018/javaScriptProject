@@ -9,16 +9,37 @@
 	</head>
 
 	<style>
-		body{
+		.parent {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.farm_house_sprite {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 1000px;
+  width: 250px;
+}
+.background {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
   		
-  		background-image: url("http://www.follettopensapulito.it/wp-content/uploads/2015/12/grass_texture220.jpg")
-    	background-repeat: no-repeat;
-		}
+  		
 	
 	</style>
 
 	<body>
 
+
+	
+
+		<div class="parent">
+ 			 <img class="background" src="background.jpeg" />
+ 	 		<img class="farm_house_sprite" src="farm_house_sprite.png" />
+		</div>
 	</body>
 
 </html>
