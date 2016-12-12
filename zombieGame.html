@@ -9,28 +9,41 @@
 	</head>
 
 	<style>
+		html, body {
+			height: 100%;
+			margin: 0px;
+			padding: 0px;
+			overflow: hidden;
+		}
 		.parent {
+			height: 100%;
   			position: relative;
   			top: 0;
   			left: 0;
+
+  			background-image: url("background.jpeg");
+  			background-repeat: no-repeat;
+  			background-size: 100% 100%;
 		}
 		.farm_house_sprite {
   			position: relative;
-  			top: 0;
+  			top: 10%;
   			left: 0;
-  			height: 1000px;
-  			width: 250px;
+  			height: 80%;
+  			width: 10%;
 		}
 		.background {
   			position: absolute;
-  			top: 0px;
-  			left: 0px;
+  			top: 0%;
+  			left: 0%;	
+  			width: 100%;
+  			height: 100%;
 		}
 		.fence{
 			position: absolute;
 			background-repeat: repeat-y;
-			top: 0px;
-			left: 300px;
+			top: 0%;
+			left: 15%;
 		}
   		
   		
@@ -43,11 +56,17 @@
 	
 
 		<div class="parent">
- 			<img class="background" src="background.jpeg" />
+
  	 		<img class="farm_house_sprite" src="farm_house_sprite.png" />
- 	 		<img class="fence" src="fence.png">
+ 	 		<img class="fence" src="fence.png"/>
+
 		</div>
 
 	</body>
+
+	<script>
+		
+
+	</script>
 
 </html>
