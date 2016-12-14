@@ -13,7 +13,7 @@
 			padding: 0px;
 		}
 		#gameCanvas{
-			border: black 1px solid;
+			border: black 5px solid;
 			margin: 0px;
 			padding: 0px;
 			width: 100%;
@@ -23,7 +23,7 @@
 
 	</style>
 
-	<body>
+	<body onload="draw">
 
 		<canvas id="gameCanvas"> </canvas>
 
@@ -37,10 +37,15 @@
 			var house = new Image();
 			house.src = "farm_house_sprite.png";
 			
-			background.onload = function(){
+			setInterval(draw, 1000);
+
+			function draw(){
+				
     			ctx.drawImage(background,0,0);
-    			ctx.drawImage(house, 0%, 40%);
-			}​
+    			ctx.drawImage(house, 0, 40); 
+    		}
+
+
 
 		</script>
 	</body>
