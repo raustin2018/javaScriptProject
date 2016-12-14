@@ -7,17 +7,11 @@
 
 	</head>
 
+
 	<style>
-		body{
-			margin: 0px;
-			padding: 0px;
-		}
+		
 		#gameCanvas{
-			border: black 5px solid;
-			margin: 0px;
-			padding: 0px;
-			width: 100%;
-			height: 100%;
+			border: 5px solid;
 			position: fixed;
 		}
 
@@ -25,15 +19,17 @@
 
 	<body onload="draw">
 
-		<canvas id="gameCanvas"> </canvas>
-
+		<canvas id="gameCanvas" width=1000 height=700> </canvas>
+		
 		<script>
 			var canvas = document.getElementById("gameCanvas"),
     		ctx = canvas.getContext("2d");
 
+    		
 			var background = new Image();
 			background.src = "background.jpeg";
-
+			
+			//var background = document.getElementById("bg");
 			var house = new Image();
 			house.src = "farm_house_sprite.png";
 			
@@ -48,6 +44,6 @@
 
 
 		</script>
-	</body>
+			</body>
 
 </html>
