@@ -39,14 +39,24 @@
 
 			var fence = new Image();
 			fence.src = "realFence.png"
+
+			var zombie = new Image();
+			zombie.src = "zombie.png"
+
+			var zx= 300;
+
+			var potzomyspawn = Math.random(); 
+
+			potzomyspawn = potzomyspawn*700;
 			
-			setInterval(draw, 1000);
+			setInterval(draw, 10);
 
 			function draw(){
 				
     			ctx.drawImage(background,0,0);
     			ctx.drawImage(fence, 270,0,15,701);
     			ctx.drawImage(house, 0, 40, 150, 600); 
+    			ctx.drawImage(zombie, zx--, potzomyspawn, 50, 45);
     		}
 
 
