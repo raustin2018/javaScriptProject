@@ -11,6 +11,7 @@
 
 
 	<style>
+
 		body{
 			background-color: black;
 		}
@@ -19,19 +20,23 @@
 			border: 5px white solid;
 			position: fixed;
 		}
+
 		img.logo2{
 			position: relative;
 			width: 12%;
 			height: 12%;
 			margin-top: 5%;
-			margin-left: 76.5%;
+			margin-left: 78%;
+
 		}
 		img.logo1{
 			position: relative;
 			width: 23%;
 			height: 7%;
-			margin-left: 71%;
+			margin-left: 72.5%;
+
 		}
+
 	</style>
 
 	<body onload="draw">
@@ -45,21 +50,28 @@
 		<script>
 			var canvas = document.getElementById("gameCanvas"),
     		ctx = canvas.getContext("2d");
+
 			var background = new Image();
 			background.src = "background.jpeg";
 			
 			//var background = document.getElementById("bg");
 			var house = new Image();
 			house.src = "farm_house_sprite.png";
+
 			var fence = new Image();
 			fence.src = "realFence.png";
+
 			var zombie = new Image();
 			zombie.src = "zombie.png";
+
 			var zx= 1100;
+
 			var potzomyspawn = Math.random(); 
+
 			potzomyspawn = potzomyspawn*535;
 			
 			setInterval(draw, 10);
+
 			function draw(){
 				
     			ctx.drawImage(background,0,0);
@@ -67,6 +79,9 @@
     			ctx.drawImage(house, 0, 40, 150, 600); 
     			ctx.drawImage(zombie, zx--, potzomyspawn, 50, 45);
     		}
+
+
+
 		</script>
 
 	</body>
