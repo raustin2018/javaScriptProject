@@ -11,7 +11,6 @@
 
 
 	<style>
-
 		body{
 			background-color: black;
 		}
@@ -20,68 +19,51 @@
 			border: 5px white solid;
 			position: fixed;
 		}
-		#fluff{
-			border: 5px solid;
-			position: fixed;
+		img.logo2{
+			position: relative;
+			margin-top: 5%;
+			margin-left: 76%;
 		}
-
+		img.logo1{
+			position: relative;
+			margin-left: 70%;
+		}
 	</style>
 
 	<body onload="draw">
 
 		<canvas id="gameCanvas" width=1000 height=700> </canvas>
-
-		<canvas id="fluff" width=300 heigth=700> </canvas>
 		
+		<img src="zombielogo2.png" class="logo2">  
+
+		<img src="zombielogo.png" class="logo1">
+
 		<script>
 			var canvas = document.getElementById("gameCanvas"),
     		ctx = canvas.getContext("2d");
-
-    		var fluffCanvas = document.getElementById("fluff"),
-    		ctx2 = fluffCanvas.getContext("2d");
-
-    		
 			var background = new Image();
 			background.src = "background.jpeg";
 			
 			//var background = document.getElementById("bg");
 			var house = new Image();
 			house.src = "farm_house_sprite.png";
-
 			var fence = new Image();
 			fence.src = "realFence.png";
-
 			var zombie = new Image();
 			zombie.src = "zombie.png";
-
-			var logo = new Image();
-			logo.src = "zombielogo.png";
-
-			var logo2 = new Image();
-			logo2.src = "zombielogo2.png";
-
 			var zx= 1100;
-
 			var potzomyspawn = Math.random(); 
-
 			potzomyspawn = potzomyspawn*535;
 			
 			setInterval(draw, 10);
-
 			function draw(){
 				
     			ctx.drawImage(background,0,0);
     			ctx.drawImage(fence, 270,0,15,701);
     			ctx.drawImage(house, 0, 40, 150, 600); 
     			ctx.drawImage(zombie, zx--, potzomyspawn, 50, 45);
-
-    			ctx2.drawImage(logo, 100, 200);
-    			ctx2.drawImage(logo2, 100, 220);
     		}
-
-
-
 		</script>
-			</body>
+	</body>
 
 </html>
