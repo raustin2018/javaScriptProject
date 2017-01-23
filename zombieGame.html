@@ -69,6 +69,8 @@
       				break;
     				case 87: keyW = true;
     				break;
+    				case 32: keySpace = true;
+    				break;
   				}
 			}
 
@@ -79,6 +81,8 @@
       				break;
     				case 87: keyW = false;
       				break;
+      				case 32: keySpace = false;
+      				break;
   				}
 			}		
 			
@@ -86,6 +90,7 @@
 
 			var keyW = false;
 			var keyS = false;
+			var keySpace = false;
 
 			var background = new Image();
 			background.src = "background.jpeg";
@@ -105,6 +110,9 @@
 
 			var bigZomb = new Image();
 			bigZomb.src = "zombimeme.png";
+
+			var bullets = new Image();
+			bullets.src = "bullet.png";
   
 			var zx= 1100;
 
@@ -129,14 +137,26 @@
 
 				}
 			}
+
+			function bullet(){
+				
+				this.x = 250;
+				this.y = tickY+33;
+				this.draw = function(ctx){
+					this.x += 4;
+					ctx.drawImage(bullets, this.x, this.y, 20, 10);
+				}
+
+			}
 			
 			setInterval(draw, 10);
 			setInterval(spawnZombie, 1000);
 			setInterval(spawnFatZombie,5000);
-			
+			setInterval(spawnBullet, 500);			
 
 			var zombies = [];
 			var fatzombie = [];
+			var bulletss = [];
 
 			function spawnZombie(){
 				zombies.push(new Zombie()); 
@@ -144,6 +164,13 @@
 
 			function spawnFatZombie(){
 				fatzombie.push(new fatZombie());
+			}
+
+			function spawnBullet(){
+				if(keySpace == true){
+					bulletss.push(new bullet());
+				}
+
 			}
 
 			function update(){
@@ -177,6 +204,7 @@
 
     			var Zlen = zombies.length;
     			var zlen = fatzombie.length;
+    			var blen = bulletss.length;
 
     			for (var meme = 0; meme < zlen ; meme++) {
 
@@ -189,6 +217,11 @@
 
     				zombies [i].draw(ctx);
 					
+				}
+
+				for (var x = 0; x < blen; x++) {
+
+					bulletss [x].draw(ctx);
 				}
     		}
 
