@@ -170,6 +170,16 @@
 					
 				}
 			}
+			function fatZombieWallCollision(){
+				for( var z of fatzombie){
+					if(z.x<270 && z.x>250 && fenceHits > 0){
+						z.x = -100;
+						fenceHits--;
+					}
+
+					
+				}
+			}
 			function spawnZombie(){
 				zombies.push(new Zombie()); 
 			}
@@ -195,6 +205,7 @@
 
 			function draw(){
 				zombieWallCollision();
+				fatZombieWallCollision()
 				console.log(fenceHits);
 				if(tickY < -20){
 					tickY = 730;
