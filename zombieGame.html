@@ -118,8 +118,11 @@
 
 			function fatZombie(){
 
-				this.x=1100;
-				this.y=Math.random() *535;
+				this.x = 1100;
+				this.y = Math.random() * 535;
+				this.width=102;
+				this.height=86;
+
 				this.draw=function (ctx){
 					this.x-=.5;
 					ctx.drawImage(bigZomb,this.x, this.y,102,86);
@@ -129,8 +132,11 @@
 			function Zombie(){
 				
 				
-				this.x=1100;
+				this.x = 1100;
 				this.y = Math.random() *535;
+				this.width = 50;
+				this.height = 45;
+
 				this.draw = function (ctx){
 					this.x--;
 					ctx.drawImage(zombie , this.x , this.y, 50, 45);
@@ -142,6 +148,9 @@
 				
 				this.x = 250;
 				this.y = tickY+33;
+				this.width = 20;
+				this.height = 10;
+
 				this.draw = function(ctx){
 					this.x += 4;
 					ctx.drawImage(bullets, this.x, this.y, 20, 10);
@@ -149,10 +158,14 @@
 
 			}
 			
-			setInterval(draw, 10);
+			setInterval(draw, 10);					//this moves and draws things...so if there is a collision, then things are now overlapping
+	//		setInterval(handleCollisions, 10);
+			setInterval(handleCollisions1, 10);
+			setInterval(handleCollisions2, 10);
 			setInterval(spawnZombie, 1000);
 			setInterval(spawnFatZombie,5000);
-			setInterval(spawnBullet, 500);			
+			setInterval(spawnBullet, 500);	
+					
 
 			var zombies = [];
 			var fatzombie = [];
@@ -174,10 +187,73 @@
 			}
 
 			function update(){
-				
 
-				
+			}
 
+			function handleCollisions1() {
+				
+				//for each bullet
+				var zHit = false;
+				for(var posB = 0; posB < bulletss.length; posB++) {
+					var b = bulletss[posB];
+					//check to see if bullet b hit something...
+					for(var posZ = 0; posZ < zombies.length; posZ++) {
+						var z = zombies[posZ];
+						zHit = bulletCollision1(b, z);
+						if(zHit == true) {
+							//remove the bullet from the list of bulletss and the zombie from the list of plankton
+							bulletss.splice(posB, 1);
+							zombies.splice(posZ, 1);
+							break;
+						}
+					}
+
+				}
+			}
+			function handleCollisions2(){
+
+				var bigzHit = false;
+				for(var posBB = 0; posBB < bulletss.length; posBB++) {
+					var bb = bulletss[posBB];
+					//check to see if bullet b hit something...
+					for(var posZZ = 0; posZZ < zombies.length; posZZ++) {
+						var zz = fatzombie[posZZ];
+						bigzHit = bulletCollision2(bb, zz);
+						if(bigzHit == true) {
+							//remove the bullet from the list of bulletss and the zombie from the list of plankton
+							bulletss.splice(posBB, 1);
+							fatzombie.splice(posZZ, 1);
+							break;
+						}
+					}
+
+				}
+			}
+
+
+
+			//This is pretty bad...use the googles and look up "javascript rectangle collision detection"
+			function bulletCollision1(bullet, zombie){
+
+				//just have this method return true or false
+
+				if(bullet.x <= zombie.x + zombie.width && bullet.x + bullet.width >= zombie.x && bullet.y <= zombie.y + zombie.height && bullet.y + bullet.height >= zombie.y){
+					return true;
+				}
+				else{
+					return false;
+				}
+			}
+			function bulletCollision2(bullet, fatzombie){
+				//just have this method return true or false
+
+				if(bullet.x <= fatzombie.x + fatzombie.width && bullet.x + bullet.width >= fatzombie.x && bullet.y <= fatzombie.y + fatzombie.height && bullet.y + bullet.height >= fatzombie.y){
+					return true;
+				}
+				else{
+					return false;
+				}
+			
 			}
 
 			function draw(){
