@@ -11,7 +11,6 @@
 
 
 	<style>
-
 		body{
 			background-color: black;
 		}
@@ -20,7 +19,6 @@
 			border: 5px white solid;
 			position: fixed;
 		}
-
 		img.logo2{
 			position: relative;
 			width: 12%;
@@ -28,7 +26,6 @@
 			margin-top: 5%;
 			margin-left: 80%;
 			opacity: 1.0;
-
 		}
 		img.logo1{
 			position: relative;
@@ -36,9 +33,7 @@
 			height: 7%;
 			margin-left: 74.5%;
 			opacity: 1.0;
-
 		}
-
 	</style>
 
 	<body onload="draw">
@@ -52,16 +47,13 @@
 		<script>
 			var canvas = document.getElementById("gameCanvas"),
     		ctx = canvas.getContext("2d");
-
 			(function() {
   				var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
     			window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
   				window.requestAnimationFrame = requestAnimationFrame;
 			})();
-
 			window.addEventListener("keydown", onKeyDown, false);
 			window.addEventListener("keyup", onKeyUp, false);
-
 			function onKeyDown(event) {
   				var keyCode = event.keyCode;
   				switch (keyCode) {
@@ -73,7 +65,6 @@
     				break;
   				}
 			}
-
 			function onKeyUp(event) {
   				var keyCode = event.keyCode;
   				switch (keyCode) {
@@ -87,86 +78,80 @@
 			}		
 			
 			var tickY = 10;
-
 			var keyW = false;
 			var keyS = false;
 			var keySpace = false;
-
 			var background = new Image();
 			background.src = "background.jpeg";
 			
 			//var background = document.getElementById("bg");
 			var house = new Image();
 			house.src = "farm_house_sprite.png";
-
 			var fence = new Image();
 			fence.src = "realFence.png";
-
 			var zombie = new Image();
 			zombie.src = "zombie.png";
-
 			var survivor = new Image();
 			survivor.src = "survivor.png";
-
 			var bigZomb = new Image();
 			bigZomb.src = "zombimeme.png";
-
 			var bullets = new Image();
 			bullets.src = "bullet.png";
   
 			var zx= 1100;
-
 			function fatZombie(){
-
-				this.x=1100;
-				this.y=Math.random() *535;
+				this.x = 1100;
+				this.y = Math.random() * 535;
+				this.width=102;
+				this.height=86;
 				this.draw=function (ctx){
 					this.x-=.5;
 					ctx.drawImage(bigZomb,this.x, this.y,102,86);
 				}
 			}
-
 			function Zombie(){
 				
 				
-				this.x=1100;
+				this.x = 1100;
 				this.y = Math.random() *535;
+				this.width = 50;
+				this.height = 45;
 				this.draw = function (ctx){
 					this.x--;
 					ctx.drawImage(zombie , this.x , this.y, 50, 45);
-
 				}
 			}
-
 			function bullet(){
 				
 				this.x = 250;
 				this.y = tickY+33;
+				this.width = 20;
+				this.height = 10;
 				this.draw = function(ctx){
 					this.x += 4;
 					ctx.drawImage(bullets, this.x, this.y, 20, 10);
 				}
-
 			}
 			
-			setInterval(draw, 10);
+			setInterval(draw, 10);					//this moves and draws things...so if there is a collision, then things are now overlapping
+	//		setInterval(handleCollisions, 10);
+			setInterval(handleCollisions1, 10);
+			setInterval(handleCollisions2, 10);
 			setInterval(spawnZombie, 1000);
 			setInterval(spawnFatZombie,5000);
-			setInterval(spawnBullet, 500);			
-
+			setInterval(spawnBullet, 500);	
+					
 			var zombies = [];
 			var fatzombie = [];
 			var bulletss = [];
 			var fenceHits = 3;
 			var gameOn = true;
-
 			function zombieWallCollision(){
 				for( var z of zombies){
 					if(z.x<270 && z.x>250 && fenceHits > 0){
 						z.x = -100;
 						fenceHits--;
 					}
-
 					
 				}
 			}
@@ -176,33 +161,78 @@
 						z.x = -100;
 						fenceHits--;
 					}
-
 					
 				}
 			}
 			function spawnZombie(){
 				zombies.push(new Zombie()); 
 			}
-
 			function spawnFatZombie(){
 				fatzombie.push(new fatZombie());
 			}
-
 			function spawnBullet(){
 				if(keySpace == true){
 					bulletss.push(new bullet());
 				}
-
 			}
-
-
 			function update(){
-				
-
-				
-
 			}
-
+			function handleCollisions1() {
+				
+				//for each bullet
+				var zHit = false;
+				for(var posB = 0; posB < bulletss.length; posB++) {
+					var b = bulletss[posB];
+					//check to see if bullet b hit something...
+					for(var posZ = 0; posZ < zombies.length; posZ++) {
+						var z = zombies[posZ];
+						zHit = bulletCollision1(b, z);
+						if(zHit == true) {
+							//remove the bullet from the list of bulletss and the zombie from the list of plankton
+							bulletss.splice(posB, 1);
+							zombies.splice(posZ, 1);
+							break;
+						}
+					}
+				}
+			}
+			function handleCollisions2(){
+				var bigzHit = false;
+				for(var posBB = 0; posBB < bulletss.length; posBB++) {
+					var bb = bulletss[posBB];
+					//check to see if bullet b hit something...
+					for(var posZZ = 0; posZZ < zombies.length; posZZ++) {
+						var zz = fatzombie[posZZ];
+						bigzHit = bulletCollision2(bb, zz);
+						if(bigzHit == true) {
+							//remove the bullet from the list of bulletss and the zombie from the list of plankton
+							bulletss.splice(posBB, 1);
+							fatzombie.splice(posZZ, 1);
+							break;
+						}
+					}
+				}
+			}
+			//This is pretty bad...use the googles and look up "javascript rectangle collision detection"
+			function bulletCollision1(bullet, zombie){
+				//just have this method return true or false
+				if(bullet.x <= zombie.x + zombie.width && bullet.x + bullet.width >= zombie.x && bullet.y <= zombie.y + zombie.height && bullet.y + bullet.height >= zombie.y){
+					return true;
+				}
+				else{
+					return false;
+				}
+			}
+			function bulletCollision2(bullet, fatzombie){
+				//just have this method return true or false
+				if(bullet.x <= fatzombie.x + fatzombie.width && bullet.x + bullet.width >= fatzombie.x && bullet.y <= fatzombie.y + fatzombie.height && bullet.y + bullet.height >= fatzombie.y){
+					return true;
+				}
+				else{
+					return false;
+				}
+			
+			}
 			function draw(){
 				zombieWallCollision();
 				fatZombieWallCollision()
@@ -219,16 +249,13 @@
 	  			if (keyW == true) {
 	    			tickY -= 5;
 	  			}
-
     			ctx.drawImage(background,0,0);
     			if (fenceHits>0) {
     				ctx.drawImage(fence, 270,0,15,701);
-
     			}
     			if (fenceHits<= 0) {
     				gameOn = false;
     			}
-
     			if (fenceHits ==3 ) {
     				ctx.beginPath();
     				ctx.fillStyle = "Green";
@@ -250,37 +277,23 @@
     				ctx.rect(230,20,100,25);
     				ctx.fill();
     			}
-
-
     			ctx.drawImage(house, 0, 40, 150, 600); 
     			ctx.drawImage(survivor, 230, tickY, 50, 50);
-
-
     			var Zlen = zombies.length;
     			var zlen = fatzombie.length;
     			var blen = bulletss.length;
-
     			for (var meme = 0; meme < zlen ; meme++) {
-
     				fatzombie [meme].draw(ctx);
 					
 				}
-
-
     			for (var i = 0; i < Zlen ; i++) {
-
     				zombies [i].draw(ctx);
 					
 				}
-
 				for (var x = 0; x < blen; x++) {
-
 					bulletss [x].draw(ctx);
 				}
     		}
-
-
-
 		</script>
 
 	</body>
