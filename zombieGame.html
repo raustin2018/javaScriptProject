@@ -100,10 +100,18 @@
   
 			var zx= 1100;
 			function fatZombie(){
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1403e887a832481fe88c901b127be538ef2ca4c5
 				this.x = 1100;
 				this.y = Math.random() * 535;
 				this.width=102;
 				this.height=86;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1403e887a832481fe88c901b127be538ef2ca4c5
 				this.draw=function (ctx){
 					this.x-=.5;
 					ctx.drawImage(bigZomb,this.x, this.y,102,86);
@@ -116,6 +124,10 @@
 				this.y = Math.random() *535;
 				this.width = 50;
 				this.height = 45;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1403e887a832481fe88c901b127be538ef2ca4c5
 				this.draw = function (ctx){
 					this.x--;
 					ctx.drawImage(zombie , this.x , this.y, 50, 45);
@@ -127,6 +139,10 @@
 				this.y = tickY+33;
 				this.width = 20;
 				this.height = 10;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1403e887a832481fe88c901b127be538ef2ca4c5
 				this.draw = function(ctx){
 					this.x += 4;
 					ctx.drawImage(bullets, this.x, this.y, 20, 10);
@@ -141,6 +157,10 @@
 			setInterval(spawnFatZombie,5000);
 			setInterval(spawnBullet, 500);	
 					
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1403e887a832481fe88c901b127be538ef2ca4c5
 			var zombies = [];
 			var fatzombie = [];
 			var bulletss = [];
@@ -176,7 +196,13 @@
 				}
 			}
 			function update(){
+<<<<<<< HEAD
 			}
+=======
+
+			}
+
+>>>>>>> 1403e887a832481fe88c901b127be538ef2ca4c5
 			function handleCollisions1() {
 				
 				//for each bullet
@@ -194,9 +220,17 @@
 							break;
 						}
 					}
+<<<<<<< HEAD
 				}
 			}
 			function handleCollisions2(){
+=======
+
+				}
+			}
+			function handleCollisions2(){
+
+>>>>>>> 1403e887a832481fe88c901b127be538ef2ca4c5
 				var bigzHit = false;
 				for(var posBB = 0; posBB < bulletss.length; posBB++) {
 					var bb = bulletss[posBB];
@@ -211,11 +245,25 @@
 							break;
 						}
 					}
+<<<<<<< HEAD
 				}
 			}
 			//This is pretty bad...use the googles and look up "javascript rectangle collision detection"
 			function bulletCollision1(bullet, zombie){
 				//just have this method return true or false
+=======
+
+				}
+			}
+
+
+
+			//This is pretty bad...use the googles and look up "javascript rectangle collision detection"
+			function bulletCollision1(bullet, zombie){
+
+				//just have this method return true or false
+
+>>>>>>> 1403e887a832481fe88c901b127be538ef2ca4c5
 				if(bullet.x <= zombie.x + zombie.width && bullet.x + bullet.width >= zombie.x && bullet.y <= zombie.y + zombie.height && bullet.y + bullet.height >= zombie.y){
 					return true;
 				}
@@ -225,6 +273,10 @@
 			}
 			function bulletCollision2(bullet, fatzombie){
 				//just have this method return true or false
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1403e887a832481fe88c901b127be538ef2ca4c5
 				if(bullet.x <= fatzombie.x + fatzombie.width && bullet.x + bullet.width >= fatzombie.x && bullet.y <= fatzombie.y + fatzombie.height && bullet.y + bullet.height >= fatzombie.y){
 					return true;
 				}
