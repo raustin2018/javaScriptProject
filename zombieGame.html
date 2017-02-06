@@ -122,6 +122,7 @@
 				this.y = Math.random() * 535;
 				this.width=102;
 				this.height=86;
+				this.numbHits = 3;
 
 				this.draw=function (ctx){
 					this.x-=.5;
@@ -162,6 +163,7 @@
 	//		setInterval(handleCollisions, 10);
 			setInterval(handleCollisions1, 10);
 			setInterval(handleCollisions2, 10);
+			setInterval(bulletDelete, 10);
 			setInterval(spawnZombie, 1000);
 			setInterval(spawnFatZombie,5000);
 			setInterval(spawnBullet, 500);	
@@ -239,20 +241,36 @@
 				for(var posBB = 0; posBB < bulletss.length; posBB++) {
 					var bb = bulletss[posBB];
 					//check to see if bullet b hit something...
-					for(var posZZ = 0; posZZ < zombies.length; posZZ++) {
+					for(var posZZ = 0; posZZ < fatzombie.length; posZZ++) {
 						var zz = fatzombie[posZZ];
 						bigzHit = bulletCollision2(bb, zz);
 						if(bigzHit == true) {
+							
+							zz.numbHits --;
+							if(zz.numbHits <= 0){
+								fatzombie.splice(posZZ, 1);
+							}
 							//remove the bullet from the list of bulletss and the zombie from the list of plankton
 							bulletss.splice(posBB, 1);
-							fatzombie.splice(posZZ, 1);
 							break;
 						}
 					}
 
 				}
 			}
+			function bulletDelete(){
 
+				var bullOffScreen = false;
+				for(var bPos = 0; bPos < bulletss.length; bPos++){
+					var bu = bulletss[bPos];
+					bullOffScreen = bulletDeleteCollision(bu);
+					if(bullOffScreen == true){
+						bulletss.splice(bPos, 1);
+						break;
+					}
+				}
+
+			}
 
 
 			//This is pretty bad...use the googles and look up "javascript rectangle collision detection"
@@ -267,16 +285,23 @@
 					return false;
 				}
 			}
-			function bulletCollision2(bullet, fatzombie){
+			function bulletCollision2(bulletk, fatzombie){
 				//just have this method return true or false
 
-				if(bullet.x <= fatzombie.x + fatzombie.width && bullet.x + bullet.width >= fatzombie.x && bullet.y <= fatzombie.y + fatzombie.height && bullet.y + bullet.height >= fatzombie.y){
+				if(bulletk.x <= fatzombie.x + fatzombie.width && bulletk.x + bulletk.width >= fatzombie.x && bulletk.y <= fatzombie.y + fatzombie.height && bulletk.y + bulletk.height >= fatzombie.y){
 					return true;
-				}
-				else{
+				}else{
 					return false;
 				}
 			
+			}
+			function bulletDeleteCollision(bul){
+
+				if(bul.x >= 1050){
+					return true;
+				}else{
+					return false;
+				}
 			}
 
 			function draw(){
