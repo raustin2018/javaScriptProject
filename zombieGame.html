@@ -100,18 +100,14 @@
   
 			var zx= 1100;
 			function fatZombie(){
-<<<<<<< HEAD
-=======
 
->>>>>>> 1403e887a832481fe88c901b127be538ef2ca4c5
 				this.x = 1100;
 				this.y = Math.random() * 535;
 				this.width=102;
 				this.height=86;
-<<<<<<< HEAD
-=======
 
->>>>>>> 1403e887a832481fe88c901b127be538ef2ca4c5
+				this.numbHits = 3;
+
 				this.draw=function (ctx){
 					this.x-=.5;
 					ctx.drawImage(bigZomb,this.x, this.y,102,86);
@@ -124,10 +120,7 @@
 				this.y = Math.random() *535;
 				this.width = 50;
 				this.height = 45;
-<<<<<<< HEAD
-=======
 
->>>>>>> 1403e887a832481fe88c901b127be538ef2ca4c5
 				this.draw = function (ctx){
 					this.x--;
 					ctx.drawImage(zombie , this.x , this.y, 50, 45);
@@ -139,10 +132,7 @@
 				this.y = tickY+33;
 				this.width = 20;
 				this.height = 10;
-<<<<<<< HEAD
-=======
 
->>>>>>> 1403e887a832481fe88c901b127be538ef2ca4c5
 				this.draw = function(ctx){
 					this.x += 4;
 					ctx.drawImage(bullets, this.x, this.y, 20, 10);
@@ -153,14 +143,12 @@
 	//		setInterval(handleCollisions, 10);
 			setInterval(handleCollisions1, 10);
 			setInterval(handleCollisions2, 10);
+			setInterval(bulletDelete, 10);
 			setInterval(spawnZombie, 1000);
 			setInterval(spawnFatZombie,5000);
 			setInterval(spawnBullet, 500);	
 					
-<<<<<<< HEAD
-=======
 
->>>>>>> 1403e887a832481fe88c901b127be538ef2ca4c5
 			var zombies = [];
 			var fatzombie = [];
 			var bulletss = [];
@@ -196,13 +184,9 @@
 				}
 			}
 			function update(){
-<<<<<<< HEAD
-			}
-=======
 
 			}
 
->>>>>>> 1403e887a832481fe88c901b127be538ef2ca4c5
 			function handleCollisions1() {
 				
 				//for each bullet
@@ -220,42 +204,46 @@
 							break;
 						}
 					}
-<<<<<<< HEAD
-				}
-			}
-			function handleCollisions2(){
-=======
 
 				}
 			}
 			function handleCollisions2(){
 
->>>>>>> 1403e887a832481fe88c901b127be538ef2ca4c5
 				var bigzHit = false;
 				for(var posBB = 0; posBB < bulletss.length; posBB++) {
 					var bb = bulletss[posBB];
 					//check to see if bullet b hit something...
-					for(var posZZ = 0; posZZ < zombies.length; posZZ++) {
+					for(var posZZ = 0; posZZ < fatzombie.length; posZZ++) {
 						var zz = fatzombie[posZZ];
 						bigzHit = bulletCollision2(bb, zz);
 						if(bigzHit == true) {
+							
+							zz.numbHits --;
+							if(zz.numbHits <= 0){
+								fatzombie.splice(posZZ, 1);
+							}
 							//remove the bullet from the list of bulletss and the zombie from the list of plankton
 							bulletss.splice(posBB, 1);
-							fatzombie.splice(posZZ, 1);
 							break;
 						}
 					}
-<<<<<<< HEAD
-				}
-			}
-			//This is pretty bad...use the googles and look up "javascript rectangle collision detection"
-			function bulletCollision1(bullet, zombie){
-				//just have this method return true or false
-=======
+
 
 				}
 			}
+			function bulletDelete(){
 
+				var bullOffScreen = false;
+				for(var bPos = 0; bPos < bulletss.length; bPos++){
+					var bu = bulletss[bPos];
+					bullOffScreen = bulletDeleteCollision(bu);
+					if(bullOffScreen == true){
+						bulletss.splice(bPos, 1);
+						break;
+					}
+				}
+
+			}
 
 
 			//This is pretty bad...use the googles and look up "javascript rectangle collision detection"
@@ -263,7 +251,7 @@
 
 				//just have this method return true or false
 
->>>>>>> 1403e887a832481fe88c901b127be538ef2ca4c5
+
 				if(bullet.x <= zombie.x + zombie.width && bullet.x + bullet.width >= zombie.x && bullet.y <= zombie.y + zombie.height && bullet.y + bullet.height >= zombie.y){
 					return true;
 				}
@@ -271,20 +259,27 @@
 					return false;
 				}
 			}
-			function bulletCollision2(bullet, fatzombie){
+			function bulletCollision2(bulletk, fatzombie){
 				//just have this method return true or false
-<<<<<<< HEAD
-=======
+				if(bulletk.x <= fatzombie.x + fatzombie.width && bulletk.x + bulletk.width >= fatzombie.x && bulletk.y <= fatzombie.y + fatzombie.height && bulletk.y + bulletk.height >= fatzombie.y){
 
->>>>>>> 1403e887a832481fe88c901b127be538ef2ca4c5
-				if(bullet.x <= fatzombie.x + fatzombie.width && bullet.x + bullet.width >= fatzombie.x && bullet.y <= fatzombie.y + fatzombie.height && bullet.y + bullet.height >= fatzombie.y){
 					return true;
-				}
-				else{
+				}else{
 					return false;
 				}
 			
 			}
+
+			function bulletDeleteCollision(bul){
+
+				if(bul.x >= 1050){
+					return true;
+				}else{
+					return false;
+				}
+			}
+
+
 			function draw(){
 				zombieWallCollision();
 				fatZombieWallCollision()
