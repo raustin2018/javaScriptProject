@@ -34,6 +34,15 @@
 			margin-left: 74.5%;
 			opacity: 1.0;
 		}
+		#score{
+			position: relative;
+			margin-top: -.5%;
+			margin-left: 75.5%;
+			color: white;
+			font-size: 20px;
+			font-family: helvetica;
+
+		}
 	</style>
 
 	<body onload="draw">
@@ -44,7 +53,10 @@
 
 		<img src="zombielogo.png" class="logo1">
 
+		<p id="score"> </p>
+
 		<script>
+			var score = 0;
 			var canvas = document.getElementById("gameCanvas"),
     		ctx = canvas.getContext("2d");
 			(function() {
@@ -201,6 +213,8 @@
 							//remove the bullet from the list of bulletss and the zombie from the list of plankton
 							bulletss.splice(posB, 1);
 							zombies.splice(posZ, 1);
+							score += 50;
+							document.getElementById("score").innerHTML = "Score: " + score;
 							break;
 						}
 					}
@@ -218,9 +232,11 @@
 						bigzHit = bulletCollision2(bb, zz);
 						if(bigzHit == true) {
 							
-							zz.numbHits --;
+							zz.numbHits--;
 							if(zz.numbHits <= 0){
 								fatzombie.splice(posZZ, 1);
+								score += 100;
+								document.getElementById("score").innerHTML = "Score: " + score;
 							}
 							//remove the bullet from the list of bulletss and the zombie from the list of plankton
 							bulletss.splice(posBB, 1);
