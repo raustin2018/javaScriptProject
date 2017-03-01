@@ -1,0 +1,415 @@
+<!DOCTYPE HTML>
+<html>
+	
+
+	<head>
+	
+	<title>Zombie Game</title>
+	<link rel="icon" href="favicon.png">
+
+	
+
+	</head>
+
+
+	<style>
+		body{
+			background-color: black;
+			display: inline-block;
+		}
+		
+		#gameCanvas{
+			border: 5px white solid;
+			display: inline-block;
+			
+			
+		
+		}
+
+		img.logo2{
+			display: inline-block;
+			position: relative;
+			width: 12%;
+			height: 12%;
+			margin-top: 5%;
+			margin-left: 80%;
+			opacity: 1.0;
+		}
+		img.logo1{
+			display: inline-block;
+			position: relative;
+			width: 23%;
+			height: 7%;
+			margin-left: 74.5%;
+			opacity: 1.0;
+		}
+		button{
+			display: inline-block;
+		}
+	</style>
+
+	<body onload="draw()">
+
+		<canvas id="gameCanvas" width=1000 height=700> </canvas>
+
+
+		
+	
+	<button type = "button" id = easyButton onclick="easy()" >Easy!!!</button>
+	<button type = "button" id = mediumButton onclick="medium()">Medium!!!</button>
+	<button type = "button" id = hardButton onclick="hard()">Hard!!!</button>
+
+	<img src="zombielogo2.png" class="logo2">  
+
+	<img src="zombielogo.png" class="logo1">
+
+		<script>
+			console.log("dank meme");
+			var canvas = document.getElementById("gameCanvas");
+    		ctx = canvas.getContext("2d");
+			(function() {
+  				var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+    			window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+  				window.requestAnimationFrame = requestAnimationFrame;
+			})();
+			window.addEventListener("keydown", onKeyDown, false);
+			window.addEventListener("keyup", onKeyUp, false);
+			function onKeyDown(event) {
+  				var keyCode = event.keyCode;
+  				switch (keyCode) {
+    				case 83: keyS = true;
+      				break;
+    				case 87: keyW = true;
+    				break;
+    				case 32: keySpace = true;
+    				break;
+  				}
+			}
+			function onKeyUp(event) {
+  				var keyCode = event.keyCode;
+  				switch (keyCode) {
+    				case 83: keyS = false;
+      				break;
+    				case 87: keyW = false;
+      				break;
+      				case 32: keySpace = false;
+      				break;
+  				}
+			}		
+			
+			var tickY = 10;
+			var keyW = false;
+			var keyS = false;
+			var keySpace = false;
+			var background = new Image();
+			background.src = "background.jpeg";
+			
+			//var background = document.getElementById("bg");
+			var house = new Image();
+			house.src = "farm_house_sprite.png";
+			var fence = new Image();
+			fence.src = "realFence.png";
+			var zombie = new Image();
+			zombie.src = "zombie.png";
+			var survivor = new Image();
+			survivor.src = "survivor.png";
+			var bigZomb = new Image();
+			bigZomb.src = "zombimeme.png";
+			var bullets = new Image();
+			bullets.src = "bullet.png";
+  
+			var zx= 1100;
+			function fatZombie(){
+
+				this.x = 1100;
+				this.y = Math.random() * 535;
+				this.width=102;
+				this.height=86;
+
+				this.numbHits = 3;
+
+				this.draw=function (ctx){
+					this.x-=.5;
+					ctx.drawImage(bigZomb,this.x, this.y,102,86);
+				}
+			}
+			function Zombie(){
+				
+				
+				this.x = 1100;
+				this.y = Math.random() *535;
+				this.width = 50;
+				this.height = 45;
+
+				this.draw = function (ctx){
+					this.x--;
+					ctx.drawImage(zombie , this.x , this.y, 50, 45);
+				}
+			}
+			function bullet(){
+				
+				this.x = 250;
+				this.y = tickY+33;
+				this.width = 20;
+				this.height = 10;
+
+				this.draw = function(ctx){
+					this.x += 4;
+					ctx.drawImage(bullets, this.x, this.y, 20, 10);
+				}
+			}
+
+			
+			setInterval(draw, 10);					//this moves and draws things...so if there is a collision, then things are now overlapping
+	//		setInterval(handleCollisions, 10);
+			setInterval(handleCollisions1, 10);
+			setInterval(handleCollisions2, 10);
+			setInterval(bulletDelete, 10);
+			setInterval(spawnBullet, 500);	
+			
+
+			var timeSpawn = 1000;
+			var fatTimeSpawn = 1000;
+
+			var normalSpawnID;
+			var fatSpawnID;
+
+			function easy(){
+				clearTimeout(normalSpawnID);
+				clearTimeout(fatSpawnID);
+				normalSpawnID = setTimeout(spawnZombie,timeSpawn);
+			}
+			function medium(){
+				clearTimeout(normalSpawnID);
+				clearTimeout(fatSpawnID);
+				fatTimeSpawn = 4000;
+				fatSpawnID = setTimeout(spawnFatZombie,fatTimeSpawn);
+				normalSpawnID = setTimeout(spawnZombie, timeSpawn);
+			}
+			function hard(){
+				clearTimeout(normalSpawnID);
+				clearTimeout(fatSpawnID);
+				fatTimeSpawn = 2000;
+				fatSpawnID = setTimeout(spawnFatZombie,fatTimeSpawn);
+				normalSpawnID = setTimeout(spawnZombie, timeSpawn);
+			}
+					
+
+			var zombies = [];
+			var fatzombie = [];
+			var bulletss = [];
+			var fenceHits = 3;
+			var gameOn = true;
+			
+		
+
+			
+
+			function zombieWallCollision(){
+				for( var z of zombies){
+					if(z.x<270 && z.x>250 && fenceHits > 0){
+						z.x = -100;
+						fenceHits--;
+					}
+					
+				}
+			}
+			function fatZombieWallCollision(){
+				for( var z of fatzombie){
+					if(z.x<270 && z.x>250 && fenceHits > 0){
+						z.x = -100;
+						fenceHits--;
+					}
+					
+				}
+			}
+
+			var numbZombies = 0;
+			
+			function spawnZombie(){
+
+				zombies.push(new Zombie()); 
+				timeSpawn*=.98;
+				if(timeSpawn < 100)
+					timeSpawn = 100;
+
+				numbZombies++;
+				console.log(numbZombies + " :: " + timeSpawn);
+				normalSpawnID = setTimeout(spawnZombie,timeSpawn + Math.random()*100);
+			}
+			function spawnFatZombie(){
+					zombies.push(new fatZombie()); 
+				fatTimeSpawn*=.999;
+				fatSpawnID = setTimeout(spawnFatZombie,fatTimeSpawn);
+			}
+			function spawnBullet(){
+				if(keySpace == true){
+					bulletss.push(new bullet());
+				}
+			}
+			function update(){
+
+			}
+
+			function handleCollisions1() {
+				
+				//for each bullet
+				var zHit = false;
+				for(var posB = 0; posB < bulletss.length; posB++) {
+					var b = bulletss[posB];
+					//check to see if bullet b hit something...
+					for(var posZ = 0; posZ < zombies.length; posZ++) {
+						var z = zombies[posZ];
+						zHit = bulletCollision1(b, z);
+						if(zHit == true) {
+							//remove the bullet from the list of bulletss and the zombie from the list of plankton
+							bulletss.splice(posB, 1);
+							zombies.splice(posZ, 1);
+							break;
+						}
+					}
+
+				}
+			}
+			function handleCollisions2(){
+
+				var bigzHit = false;
+				for(var posBB = 0; posBB < bulletss.length; posBB++) {
+					var bb = bulletss[posBB];
+					//check to see if bullet b hit something...
+					for(var posZZ = 0; posZZ < fatzombie.length; posZZ++) {
+						var zz = fatzombie[posZZ];
+						bigzHit = bulletCollision2(bb, zz);
+						if(bigzHit == true) {
+							
+							zz.numbHits --;
+							if(zz.numbHits <= 0){
+								fatzombie.splice(posZZ, 1);
+							}
+							//remove the bullet from the list of bulletss and the zombie from the list of plankton
+							bulletss.splice(posBB, 1);
+							break;
+						}
+					}
+
+
+				}
+			}
+			function bulletDelete(){
+
+				var bullOffScreen = false;
+				for(var bPos = 0; bPos < bulletss.length; bPos++){
+					var bu = bulletss[bPos];
+					bullOffScreen = bulletDeleteCollision(bu);
+					if(bullOffScreen == true){
+						bulletss.splice(bPos, 1);
+						break;
+					}
+				}
+
+			}
+
+
+			//This is pretty bad...use the googles and look up "javascript rectangle collision detection"
+			function bulletCollision1(bullet, zombie){
+
+				//just have this method return true or false
+
+
+				if(bullet.x <= zombie.x + zombie.width && bullet.x + bullet.width >= zombie.x && bullet.y <= zombie.y + zombie.height && bullet.y + bullet.height >= zombie.y){
+					return true;
+				}
+				else{
+					return false;
+				}
+			}
+			function bulletCollision2(bulletk, fatzombie){
+				//just have this method return true or false
+				if(bulletk.x <= fatzombie.x + fatzombie.width && bulletk.x + bulletk.width >= fatzombie.x && bulletk.y <= fatzombie.y + fatzombie.height && bulletk.y + bulletk.height >= fatzombie.y){
+
+					return true;
+				}else{
+					return false;
+				}
+			
+			}
+
+			function bulletDeleteCollision(bul){
+
+				if(bul.x >= 1050){
+					return true;
+				}else{
+					return false;
+				}
+			}
+
+
+			function draw(){
+				zombieWallCollision();
+				fatZombieWallCollision()
+			//	console.log(fenceHits);
+				if(tickY < -20){
+					tickY = 730;
+				}
+				if(tickY > 731){
+					tickY = -15;
+				}
+				if (keyS == true) {
+	   				tickY += 5;
+	 			}
+	  			if (keyW == true) {
+	    			tickY -= 5;
+	  			}
+    			ctx.drawImage(background,0,0);
+    			if (fenceHits>0) {
+    				ctx.drawImage(fence, 270,0,15,701);
+    			}
+    			if (fenceHits<= 0) {
+    				gameOn = false;
+    			}
+    			if (fenceHits ==3 ) {
+    				ctx.beginPath();
+    				ctx.fillStyle = "Green";
+    				ctx.lineWidth = "10";
+    				ctx.rect(230,20,100,25);
+    				ctx.fill();
+    			}
+    			if (fenceHits ==2 ) {
+    				ctx.beginPath();
+    				ctx.fillStyle = "Orange";
+    				ctx.lineWidth = "10";
+    				ctx.rect(230,20,100,25);
+    				ctx.fill();
+    			}
+    			if (fenceHits ==1 ) {
+    				ctx.beginPath();
+    				ctx.fillStyle = "Red";
+    				ctx.lineWidth = "10";
+    				ctx.rect(230,20,100,25);
+    				ctx.fill();
+    			}
+    			ctx.drawImage(house, 0, 40, 150, 600); 
+    			ctx.drawImage(survivor, 230, tickY, 50, 50);
+    			var Zlen = zombies.length;
+    			var zlen = fatzombie.length;
+    			var blen = bulletss.length;
+    			for (var meme = 0; meme < zlen ; meme++) {
+    				fatzombie [meme].draw(ctx);
+					
+				}
+    			for (var i = 0; i < Zlen ; i++) {
+    				zombies [i].draw(ctx);
+					
+				}
+				for (var x = 0; x < blen; x++) {
+					bulletss [x].draw(ctx);
+				}
+    		}
+		</script>
+
+	
+
+
+	</body>
+	</html>
+		
