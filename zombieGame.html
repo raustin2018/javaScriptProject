@@ -43,6 +43,14 @@
 			font-family: helvetica;
 
 		}
+		#highscores{
+			position: relative;
+			margin-top: -1.5%;
+			margin-left: 75.5%;
+			color: white;
+			font-size: 20px;
+			font-family: helvetica;
+		}
 	</style>
 
 	<body onload="draw">
@@ -55,8 +63,20 @@
 
 		<p id="score"> </p>
 
+		<p id="highscores"> </p>
+
 		<script>
 			var score = 0;
+			var highscore = localStorage.getItem("highscore");
+			if(highscore !== null){
+   				if (score > highscore) {
+      				localStorage.setItem("highscore", score );
+      			}
+			}else{
+    			localStorage.setItem("highscore", score );
+			}
+			//document.getElementById("highscores").innerHTML = "Highscore: " + score;
+
 			var timeOfLastShot = 0;
 			var bulletDelay = 300;
 			var canvas = document.getElementById("gameCanvas"),
@@ -159,7 +179,7 @@
 			setInterval(handleCollisions2, 10);
 			setInterval(bulletDelete, 10);
 			setInterval(spawnZombie, 1000);
-			setInterval(spawnFatZombie,5000);
+			setInterval(spawnFatZombie, 5000);
 			setInterval(spawnBullet, 50);	
 					
 
@@ -168,6 +188,7 @@
 			var bulletss = [];
 			var fenceHits = 3;
 			var gameOn = true;
+
 			function zombieWallCollision(){
 				for( var z of zombies){
 					if(z.x<270 && z.x>250 && fenceHits > 0){
@@ -305,6 +326,7 @@
 
 
 			function draw(){
+				document.getElementById("highscores").innerHTML = "Highscore: " + score;
 				zombieWallCollision();
 				fatZombieWallCollision()
 				console.log(fenceHits);
