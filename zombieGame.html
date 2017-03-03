@@ -67,7 +67,22 @@
 
 		<script>
 			var score = 0;
-			var highscore = localStorage.getItem("highscore");
+
+			function highScore() {
+    			if(typeof(Storage) !== "undefined") {
+        			if (localStorage.highscore > score) {
+            			localStorage.highscore = Number(localStorage.highscore);
+        			} else {
+            			localStorage.highscore = score;
+        			}
+       				document.getElementById("highscores").innerHTML = "Highscore: " + localStorage.highscore;
+    			} else {
+       				document.getElementById("highscores").innerHTML = "Sorry, your browser does not support web storage...";
+    			}
+			}
+
+
+			/*var highscore = localStorage.getItem("highscore");
 			if(highscore !== null){
    				if (score > highscore) {
       				localStorage.setItem("highscore", score );
@@ -75,8 +90,8 @@
 			}else{
     			localStorage.setItem("highscore", score );
 			}
-			//document.getElementById("highscores").innerHTML = "Highscore: " + score;
-
+			document.getElementById("highscores").innerHTML = "Highscore: " + score;
+			*/
 			var timeOfLastShot = 0;
 			var bulletDelay = 300;
 			var canvas = document.getElementById("gameCanvas"),
@@ -173,7 +188,8 @@
 				}
 			}
 			
-			setInterval(draw, 10);					//this moves and draws things...so if there is a collision, then things are now overlapping
+			setInterval(draw, 10);
+			setInterval(highScore, 10);					//this moves and draws things...so if there is a collision, then things are now overlapping
 	//		setInterval(handleCollisions, 10);
 			setInterval(handleCollisions1, 10);
 			setInterval(handleCollisions2, 10);
@@ -326,7 +342,7 @@
 
 
 			function draw(){
-				document.getElementById("highscores").innerHTML = "Highscore: " + score;
+				//document.getElementById("highscores").innerHTML = "Highscore: " + score;
 				zombieWallCollision();
 				fatZombieWallCollision()
 				console.log(fenceHits);
