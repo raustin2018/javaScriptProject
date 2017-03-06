@@ -15,7 +15,7 @@
 	<style>
 		body{
 			background-color: black;
-			display: inline-block;
+		//	display: inline-block;
 		}
 		
 		#gameCanvas{
@@ -27,44 +27,62 @@
 		}
 
 		img.logo2{
-			display: inline-block;
-			position: relative;
-			width: 12%;
+			display: block;
+			margin: auto;
+		//	position: relative;
+		/*	width: 12%;
 			height: 12%;
 			margin-top: 5%;
 			margin-left: 80%;
 			opacity: 1.0;
+		*/
+		//	border: 3px solid #73AD21;
 		}
 		img.logo1{
-			display: inline-block;
-			position: relative;
-			width: 23%;
+			display: block;
+			margin: auto;
+		//	position: relative;
+	/*		width: 23%;
 			height: 7%;
 			margin-left: 74.5%;
 			opacity: 1.0;
+			*/
+		//	border: 3px solid #73AD21;
 		}
 		button{
-			display: inline-block;
+			margin: 10px;
 		}
 	</style>
 
 	<body onload="draw()">
 
-		<canvas id="gameCanvas" width=1000 height=700> </canvas>
+		
 
+		<div style="float:left">
 
+			<canvas id="gameCanvas" width=1000 height=700> </canvas>
+
+		</div>
 		
 	
-	<button type = "button" id = easyButton onclick="easy()" >Easy!!!</button>
-	<button type = "button" id = mediumButton onclick="medium()">Medium!!!</button>
-	<button type = "button" id = hardButton onclick="hard()">Hard!!!</button>
+		<div style="float:right">
 
-	<img src="zombielogo2.png" class="logo2">  
+			<img src="zombielogo2.png" class="logo2">  
 
-	<img src="zombielogo.png" class="logo1">
+			<img src="zombielogo.png" class="logo1">
+
+			<div>
+			<span style="margin:auto">
+				<button type = "button" id = easyButton onclick="easy()" >Easy!!!</button>
+				<button type = "button" id = mediumButton onclick="medium()">Medium!!!</button>
+				<button type = "button" id = hardButton onclick="hard()">Hard!!!</button>
+				</span>
+			</div>
+
+		</div>
 
 		<script>
-			console.log("dank meme");
+			
 			var canvas = document.getElementById("gameCanvas");
     		ctx = canvas.getContext("2d");
 			(function() {
@@ -282,9 +300,11 @@
 						bigzHit = bulletCollision2(bb, zz);
 						if(bigzHit == true) {
 							
-							zz.numbHits --;
+							zz.numbHits--;
 							if(zz.numbHits <= 0){
 								fatzombie.splice(posZZ, 1);
+								score += 100;
+								document.getElementById("score").innerHTML = "Score: " + score;
 							}
 							//remove the bullet from the list of bulletss and the zombie from the list of plankton
 							bulletss.splice(posBB, 1);

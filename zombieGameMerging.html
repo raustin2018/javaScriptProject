@@ -50,20 +50,45 @@
 		button{
 			margin: 10px;
 		}
-		
+			#highscores{
+			position: relative;
+			margin-top: -1.5%;
+			margin-left: 75.5%;
+			color: white;
+			font-size: 20px;
+			font-family: helvetica;
+		}
 	</style>
 
 	<body onload="draw">
 
-		<canvas id="gameCanvas" width=1000 height=700> </canvas>
+		<div style="float:left">
 
-		<img src="zombielogo2.png" class="logo2">  
+			<canvas id="gameCanvas" width=1000 height=700> </canvas>
 
-		<img src="zombielogo.png" class="logo1">
+		</div>
+		
+	
+		<div style="float:right">
 
-		<p id="score"> </p>
+			<img src="zombielogo2.png" class="logo2">  
 
-		<p id="highscores"> </p>
+			<img src="zombielogo.png" class="logo1">
+
+			<div>
+			<span style="margin:auto">
+				<button type = "button" id = easyButton onclick="easy()" >Easy!!!</button>
+				<button type = "button" id = mediumButton onclick="medium()">Medium!!!</button>
+				<button type = "button" id = hardButton onclick="hard()">Hard!!!</button>
+				</span>
+					<p id="score"> </p>
+
+					<p id="highscores"> </p>
+			</div>
+
+		</div>
+
+	
 
 		<script>
 			var score = 0;
@@ -156,12 +181,14 @@
 				this.height=86;
 
 				this.numbHits = 3;
+				
 
 				this.draw=function (ctx){
 					this.x-=.5;
 					ctx.drawImage(bigZomb,this.x, this.y,102,86);
 				}
 			}
+
 			function Zombie(){
 				
 				
@@ -188,16 +215,38 @@
 				}
 			}
 			
-			setInterval(draw, 10);
-			setInterval(highScore, 10);					//this moves and draws things...so if there is a collision, then things are now overlapping
+			setInterval(draw, 10);					//this moves and draws things...so if there is a collision, then things are now overlapping
 	//		setInterval(handleCollisions, 10);
 			setInterval(handleCollisions1, 10);
 			setInterval(handleCollisions2, 10);
 			setInterval(bulletDelete, 10);
-			setInterval(spawnZombie, 1000);
-			setInterval(spawnFatZombie, 5000);
-			setInterval(spawnBullet, 50);	
-					
+			setInterval(spawnBullet, 500);		
+				
+			var timeSpawn = 1000;
+			var fatTimeSpawn = 1000;
+
+			var normalSpawnID;
+			var fatSpawnID;
+
+			function easy(){
+				clearTimeout(normalSpawnID);
+				clearTimeout(fatSpawnID);
+				normalSpawnID = setTimeout(spawnZombie,timeSpawn);
+			}
+			function medium(){
+				clearTimeout(normalSpawnID);
+				clearTimeout(fatSpawnID);
+				fatTimeSpawn = 4000;
+				fatSpawnID = setTimeout(spawnFatZombie,fatTimeSpawn);
+				normalSpawnID = setTimeout(spawnZombie, timeSpawn);
+			}
+			function hard(){
+				clearTimeout(normalSpawnID);
+				clearTimeout(fatSpawnID);
+				fatTimeSpawn = 2000;
+				fatSpawnID = setTimeout(spawnFatZombie,fatTimeSpawn);
+				normalSpawnID = setTimeout(spawnZombie, timeSpawn);
+			}	
 
 			var zombies = [];
 			var fatzombie = [];
@@ -205,6 +254,11 @@
 			var fenceHits = 3;
 			var gameOn = true;
 
+			function gameOver(){
+				if(fenceHits==0){
+
+				}
+			}
 			function zombieWallCollision(){
 				for( var z of zombies){
 					if(z.x<270 && z.x>250 && fenceHits > 0){
@@ -223,11 +277,24 @@
 					
 				}
 			}
+
+			var numbZombies = 0;
+
 			function spawnZombie(){
+
 				zombies.push(new Zombie()); 
+				timeSpawn*=.98;
+				if(timeSpawn < 100)
+					timeSpawn = 100;
+
+				numbZombies++;
+				console.log(numbZombies + " :: " + timeSpawn);
+				normalSpawnID = setTimeout(spawnZombie,timeSpawn + Math.random()*100);
 			}
 			function spawnFatZombie(){
-				fatzombie.push(new fatZombie());
+					zombies.push(new fatZombie()); 
+				fatTimeSpawn*=.999;
+				fatSpawnID = setTimeout(spawnFatZombie,fatTimeSpawn);
 			}
 			function spawnBullet(){
 				
@@ -240,6 +307,8 @@
 				}
 
 			}
+			
+
 			function update(){
 
 			}

@@ -11,46 +11,45 @@
 
 
 	<style>
-				body{
+		body{
 			background-color: black;
-		//	display: inline-block;
 		}
 		
 		#gameCanvas{
 			border: 5px white solid;
-			display: inline-block;
-			
-			
-		
+			position: fixed;
 		}
-
 		img.logo2{
-			display: block;
-			margin: auto;
-		//	position: relative;
-		/*	width: 12%;
+			position: relative;
+			width: 12%;
 			height: 12%;
 			margin-top: 5%;
 			margin-left: 80%;
 			opacity: 1.0;
-		*/
-		//	border: 3px solid #73AD21;
 		}
 		img.logo1{
-			display: block;
-			margin: auto;
-		//	position: relative;
-	/*		width: 23%;
+			position: relative;
+			width: 23%;
 			height: 7%;
 			margin-left: 74.5%;
 			opacity: 1.0;
-			*/
-		//	border: 3px solid #73AD21;
 		}
-		button{
-			margin: 10px;
+		#score{
+			position: relative;
+			margin-top: -.5%;
+			margin-left: 75.5%;
+			color: white;
+			font-size: 20px;
+			font-family: helvetica;
 		}
-		
+		#highscores{
+			position: relative;
+			margin-top: -1.5%;
+			margin-left: 75.5%;
+			color: white;
+			font-size: 20px;
+			font-family: helvetica;
+		}
 	</style>
 
 	<body onload="draw">
@@ -67,22 +66,7 @@
 
 		<script>
 			var score = 0;
-
-			function highScore() {
-    			if(typeof(Storage) !== "undefined") {
-        			if (localStorage.highscore > score) {
-            			localStorage.highscore = Number(localStorage.highscore);
-        			} else {
-            			localStorage.highscore = score;
-        			}
-       				document.getElementById("highscores").innerHTML = "Highscore: " + localStorage.highscore;
-    			} else {
-       				document.getElementById("highscores").innerHTML = "Sorry, your browser does not support web storage...";
-    			}
-			}
-
-
-			/*var highscore = localStorage.getItem("highscore");
+			var highscore = localStorage.getItem("highscore");
 			if(highscore !== null){
    				if (score > highscore) {
       				localStorage.setItem("highscore", score );
@@ -90,8 +74,7 @@
 			}else{
     			localStorage.setItem("highscore", score );
 			}
-			document.getElementById("highscores").innerHTML = "Highscore: " + score;
-			*/
+			//document.getElementById("highscores").innerHTML = "Highscore: " + score;
 			var timeOfLastShot = 0;
 			var bulletDelay = 300;
 			var canvas = document.getElementById("gameCanvas"),
@@ -149,14 +132,11 @@
   
 			var zx= 1100;
 			function fatZombie(){
-
 				this.x = 1100;
 				this.y = Math.random() * 535;
 				this.width=102;
 				this.height=86;
-
 				this.numbHits = 3;
-
 				this.draw=function (ctx){
 					this.x-=.5;
 					ctx.drawImage(bigZomb,this.x, this.y,102,86);
@@ -169,7 +149,6 @@
 				this.y = Math.random() *535;
 				this.width = 50;
 				this.height = 45;
-
 				this.draw = function (ctx){
 					this.x--;
 					ctx.drawImage(zombie , this.x , this.y, 50, 45);
@@ -181,15 +160,13 @@
 				this.y = tickY+33;
 				this.width = 20;
 				this.height = 10;
-
 				this.draw = function(ctx){
 					this.x += 4;
 					ctx.drawImage(bullets, this.x, this.y, 20, 10);
 				}
 			}
 			
-			setInterval(draw, 10);
-			setInterval(highScore, 10);					//this moves and draws things...so if there is a collision, then things are now overlapping
+			setInterval(draw, 10);					//this moves and draws things...so if there is a collision, then things are now overlapping
 	//		setInterval(handleCollisions, 10);
 			setInterval(handleCollisions1, 10);
 			setInterval(handleCollisions2, 10);
@@ -198,13 +175,11 @@
 			setInterval(spawnFatZombie, 5000);
 			setInterval(spawnBullet, 50);	
 					
-
 			var zombies = [];
 			var fatzombie = [];
 			var bulletss = [];
 			var fenceHits = 3;
 			var gameOn = true;
-
 			function zombieWallCollision(){
 				for( var z of zombies){
 					if(z.x<270 && z.x>250 && fenceHits > 0){
@@ -238,12 +213,9 @@
 						timeOfLastShot = time;
 					}
 				}
-
 			}
 			function update(){
-
 			}
-
 			function handleCollisions1() {
 				
 				//for each bullet
@@ -263,11 +235,9 @@
 							break;
 						}
 					}
-
 				}
 			}
 			function handleCollisions2(){
-
 				var bigzHit = false;
 				for(var posBB = 0; posBB < bulletss.length; posBB++) {
 					var bb = bulletss[posBB];
@@ -288,12 +258,9 @@
 							break;
 						}
 					}
-
-
 				}
 			}
 			function bulletDelete(){
-
 				var bullOffScreen = false;
 				for(var bPos = 0; bPos < bulletss.length; bPos++){
 					var bu = bulletss[bPos];
@@ -303,16 +270,10 @@
 						break;
 					}
 				}
-
 			}
-
-
 			//This is pretty bad...use the googles and look up "javascript rectangle collision detection"
 			function bulletCollision1(bullet, zombie){
-
 				//just have this method return true or false
-
-
 				if(bullet.x <= zombie.x + zombie.width && bullet.x + bullet.width >= zombie.x && bullet.y <= zombie.y + zombie.height && bullet.y + bullet.height >= zombie.y){
 					return true;
 				}
@@ -323,26 +284,21 @@
 			function bulletCollision2(bulletk, fatzombie){
 				//just have this method return true or false
 				if(bulletk.x <= fatzombie.x + fatzombie.width && bulletk.x + bulletk.width >= fatzombie.x && bulletk.y <= fatzombie.y + fatzombie.height && bulletk.y + bulletk.height >= fatzombie.y){
-
 					return true;
 				}else{
 					return false;
 				}
 			
 			}
-
 			function bulletDeleteCollision(bul){
-
 				if(bul.x >= 1050){
 					return true;
 				}else{
 					return false;
 				}
 			}
-
-
 			function draw(){
-				//document.getElementById("highscores").innerHTML = "Highscore: " + score;
+				document.getElementById("highscores").innerHTML = "Highscore: " + score;
 				zombieWallCollision();
 				fatZombieWallCollision()
 				console.log(fenceHits);
