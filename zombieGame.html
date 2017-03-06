@@ -299,11 +299,11 @@
 					timeSpawn = 100;
 
 				numbZombies++;
-				console.log(numbZombies + " :: " + timeSpawn);
+		//		console.log(numbZombies + " :: " + timeSpawn);
 				normalSpawnID = setTimeout(spawnZombie,timeSpawn + Math.random()*100);
 			}
 			function spawnFatZombie(){
-					zombies.push(new fatZombie()); 
+					fatzombie.push(new fatZombie()); 
 				fatTimeSpawn*=.999;
 				fatSpawnID = setTimeout(spawnFatZombie,fatTimeSpawn);
 			}
@@ -347,6 +347,7 @@
 				var bigzHit = false;
 				for(var posBB = 0; posBB < bulletss.length; posBB++) {
 					var bb = bulletss[posBB];
+					bigzHit = false;
 					//check to see if bullet b hit something...
 					for(var posZZ = 0; posZZ < fatzombie.length; posZZ++) {
 						var zz = fatzombie[posZZ];
@@ -354,6 +355,7 @@
 						if(bigzHit == true) {
 							
 							zz.numbHits--;
+							console.log*=("Hit a fat zomberino " + zz.numbHits);
 							if(zz.numbHits <= 0){
 								fatzombie.splice(posZZ, 1);
 								score += 100;
@@ -421,7 +423,7 @@
 				//document.getElementById("highscores").innerHTML = "Highscore: " + score;
 				zombieWallCollision();
 				fatZombieWallCollision()
-				console.log(fenceHits);
+		//		console.log(fenceHits);
 				if(tickY < -20){
 					tickY = 730;
 				}
