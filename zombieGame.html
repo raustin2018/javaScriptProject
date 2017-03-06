@@ -9,29 +9,46 @@
 
 	</head>
 
+
 	<style>
 		body{
 			background-color: black;
+		//	display: inline-block;
 		}
 		
 		#gameCanvas{
 			border: 5px white solid;
-			position: fixed;
+			display: inline-block;
+			
+			
+		
 		}
+
 		img.logo2{
-			position: relative;
-			width: 12%;
+			display: block;
+			margin: auto;
+		//	position: relative;
+		/*	width: 12%;
 			height: 12%;
 			margin-top: 5%;
 			margin-left: 80%;
 			opacity: 1.0;
+		*/
+		//	border: 3px solid #73AD21;
 		}
 		img.logo1{
-			position: relative;
-			width: 23%;
+			display: block;
+			margin: auto;
+		//	position: relative;
+	/*		width: 23%;
 			height: 7%;
 			margin-left: 74.5%;
 			opacity: 1.0;
+			*/
+		//	border: 3px solid #73AD21;
+		}
+		button{
+			margin: 10px;
 		}
 		#score{
 			position: relative;
@@ -50,15 +67,37 @@
 			font-size: 20px;
 			font-family: helvetica;
 		}
+
 	</style>
 
 	<body onload="draw">
 
-		<canvas id="gameCanvas" width=1000 height=700> </canvas>
+	<div style="float:left">
 
-		<img src="zombielogo2.png" class="logo2">  
+			<canvas id="gameCanvas" width=1000 height=700> </canvas>
 
-		<img src="zombielogo.png" class="logo1">
+		</div>
+		
+	
+		<div style="float:right">
+
+			<img src="zombielogo2.png" class="logo2">  
+
+			<img src="zombielogo.png" class="logo1">
+
+			<p id="score"> </p>
+
+			<p id="highscores"> </p>
+
+			<div>
+			<span style="margin:auto">
+				<button type = "button" id = easyButton onclick="easy()" >Easy!!!</button>
+				<button type = "button" id = mediumButton onclick="medium()">Medium!!!</button>
+				<button type = "button" id = hardButton onclick="hard()">Hard!!!</button>
+				</span>
+			</div>
+
+		</div>
 
 		<p id="score"> </p>
 
@@ -193,10 +232,39 @@
 			setInterval(handleCollisions1, 10);
 			setInterval(handleCollisions2, 10);
 			setInterval(bulletDelete, 10);
-			setInterval(spawnZombie, 1000);
-			setInterval(spawnFatZombie, 5000);
 			setInterval(spawnBullet, 50);	
 					
+
+
+
+			var timeSpawn = 1000;
+			var fatTimeSpawn = 1000;
+
+			var normalSpawnID;
+			var fatSpawnID;
+
+			function easy(){
+				clearTimeout(normalSpawnID);
+				clearTimeout(fatSpawnID);
+				normalSpawnID = setTimeout(spawnZombie,timeSpawn);
+			}
+			function medium(){
+				clearTimeout(normalSpawnID);
+				clearTimeout(fatSpawnID);
+				fatTimeSpawn = 4000;
+				fatSpawnID = setTimeout(spawnFatZombie,fatTimeSpawn);
+				normalSpawnID = setTimeout(spawnZombie, timeSpawn);
+			}
+			function hard(){
+				clearTimeout(normalSpawnID);
+				clearTimeout(fatSpawnID);
+				fatTimeSpawn = 2000;
+				fatSpawnID = setTimeout(spawnFatZombie,fatTimeSpawn);
+				normalSpawnID = setTimeout(spawnZombie, timeSpawn);
+			}
+					
+
+
 
 			var zombies = [];
 			var fatzombie = [];
@@ -222,11 +290,22 @@
 					
 				}
 			}
+			var numbZombies = 0;
 			function spawnZombie(){
+
 				zombies.push(new Zombie()); 
+				timeSpawn*=.97;
+				if(timeSpawn < 100)
+					timeSpawn = 100;
+
+				numbZombies++;
+				console.log(numbZombies + " :: " + timeSpawn);
+				normalSpawnID = setTimeout(spawnZombie,timeSpawn + Math.random()*100);
 			}
 			function spawnFatZombie(){
-				fatzombie.push(new fatZombie());
+					zombies.push(new fatZombie()); 
+				fatTimeSpawn*=.999;
+				fatSpawnID = setTimeout(spawnFatZombie,fatTimeSpawn);
 			}
 			function spawnBullet(){
 				
@@ -239,9 +318,7 @@
 				}
 
 			}
-			function update(){
-
-			}
+			
 
 			function handleCollisions1() {
 				
