@@ -13,44 +13,44 @@
 	<style>
 		body{
 			background-color: black;
-		//	display: inline-block;
 		}
 		
 		#gameCanvas{
 			border: 5px white solid;
-			display: inline-block;
-			
-			
-		
+			position: fixed;
 		}
-
 		img.logo2{
-			display: block;
-			margin: auto;
-		//	position: relative;
-		/*	width: 12%;
+			position: relative;
+			width: 12%;
 			height: 12%;
 			margin-top: 5%;
 			margin-left: 80%;
 			opacity: 1.0;
-		*/
-		//	border: 3px solid #73AD21;
 		}
 		img.logo1{
-			display: block;
-			margin: auto;
-		//	position: relative;
-	/*		width: 23%;
+			position: relative;
+			width: 23%;
 			height: 7%;
 			margin-left: 74.5%;
 			opacity: 1.0;
-			*/
-		//	border: 3px solid #73AD21;
 		}
-		button{
-			margin: 10px;
+		#score{
+			position: relative;
+			margin-top: -.5%;
+			margin-left: 75.5%;
+			color: white;
+			font-size: 20px;
+			font-family: helvetica;
+
 		}
-		
+		#highscores{
+			position: relative;
+			margin-top: -1.5%;
+			margin-left: 75.5%;
+			color: white;
+			font-size: 20px;
+			font-family: helvetica;
+		}
 	</style>
 
 	<body onload="draw">
@@ -92,7 +92,6 @@
 			}
 			document.getElementById("highscores").innerHTML = "Highscore: " + score;
 			*/
-
 			var timeOfLastShot = 0;
 			var bulletDelay = 300;
 			var canvas = document.getElementById("gameCanvas"),
