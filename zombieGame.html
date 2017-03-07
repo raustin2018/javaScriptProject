@@ -47,13 +47,45 @@
 			*/
 		//	border: 3px solid #73AD21;
 		}
-		button{
-			margin: 10px;
+		.button {
+    		position: relative;
+ 			background-color: #3f6636;
+    		border: none;
+    		font-size: 28px;
+    		color: #FFFFFF;
+    		padding: 20px;
+    		width: 200px;
+    		text-align: center;
+   			-webkit-transition-duration: 0.4s; /* Safari */
+    		transition-duration: 0.4s;
+    		text-decoration: none;
+    		overflow: hidden;
+    		cursor: pointer;
+		}
+
+		.button:after {
+    		content: "";
+    		background: #f1f1f1;
+    		display: block;
+    		position: absolute;
+    		padding-top: 300%;
+    		padding-left: 350%;
+    		margin-left: -20px !important;
+    		margin-top: -120%;
+    		opacity: 0;
+    		transition: all 0.8s
+		}
+
+		.button:active:after {
+    		padding: 0;
+    		margin: 0;
+    		opacity: 1;
+    		transition: 0s
 		}
 		#score{
 			position: relative;
 			margin-top: -.5%;
-			margin-left: 75.5%;
+			margin-left: 70%;
 			color: white;
 			font-size: 20px;
 			font-family: helvetica;
@@ -62,7 +94,7 @@
 		#highscores{
 			position: relative;
 			margin-top: -1.5%;
-			margin-left: 75.5%;
+			margin-left: 70%;
 			color: white;
 			font-size: 20px;
 			font-family: helvetica;
@@ -91,9 +123,9 @@
 
 			<div>
 			<span style="margin:auto">
-				<button type = "button" id = easyButton onclick="easy()" >Easy!!!</button>
-				<button type = "button" id = mediumButton onclick="medium()">Medium!!!</button>
-				<button type = "button" id = hardButton onclick="hard()">Hard!!!</button>
+				<button class = "button" id = easyButton onclick="easy()" >Easy</button>
+				<button class = "button" id = mediumButton onclick="medium()">Medium</button>
+				<button class = "button" id = hardButton onclick="hard()">Hard</button>
 				</span>
 			</div>
 
@@ -150,6 +182,8 @@
     				break;
     				case 32: keySpace = true;
     				break;
+    				case 71: keyG = true;
+    				break;
   				}
 			}
 			function onKeyUp(event) {
@@ -161,6 +195,8 @@
       				break;
       				case 32: keySpace = false;
       				break;
+      				case 71: keyG = false;
+      				break;
   				}
 			}		
 			
@@ -168,6 +204,7 @@
 			var keyW = false;
 			var keyS = false;
 			var keySpace = false;
+			var keyG = false;
 			var background = new Image();
 			background.src = "background.jpeg";
 			
@@ -184,6 +221,8 @@
 			bigZomb.src = "zombimeme.png";
 			var bullets = new Image();
 			bullets.src = "bullet.png";
+			var grenata = new Image();
+			grenata.src = "grenade.png";
   	
 			var zx= 1100;
 			function fatZombie(){
@@ -277,8 +316,8 @@
 			function grenade(){
 
 				if(score != 0 && score % 5000 == 0){
-					score += 100*zombies.length;
-					score += 200*fatzombie.length;
+					score += 500*zombies.length;
+					score += 500*fatzombie.length;
 					fatzombie.length = 0;
 					zombies.length = 0;
 				}
@@ -315,7 +354,7 @@
 				normalSpawnID = setTimeout(spawnZombie,timeSpawn + Math.random()*100);
 			}
 			function spawnFatZombie(){
-					zombies.push(new fatZombie()); 
+				fatzombie.push(new fatZombie()); 
 				fatTimeSpawn*=.999;
 				fatSpawnID = setTimeout(spawnFatZombie,fatTimeSpawn);
 			}
@@ -368,7 +407,7 @@
 							zz.numbHits--;
 							if(zz.numbHits <= 0){
 								fatzombie.splice(posZZ, 1);
-								score += 1000;
+								score += 500;
 								document.getElementById("score").innerHTML = "Score: " + score;
 							}
 							//remove the bullet from the list of bulletss and the zombie from the list of plankton
