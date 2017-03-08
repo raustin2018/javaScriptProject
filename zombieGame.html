@@ -558,6 +558,26 @@
 				for (var x = 0; x < blen; x++) {
 					bulletss [x].draw(ctx);
 				}
+				if(scoreCount == false) {
+
+					ctx.font = "170px Arial";
+					ctx.textAlign = "center";  
+
+					var gradient = ctx.createLinearGradient(0, 0, 900, 0);
+					gradient.addColorStop("0", "magenta");
+					gradient.addColorStop("0.5", "blue");
+					gradient.addColorStop("1.0", "red");
+					
+
+					ctx.strokeStyle = gradient;
+
+					ctx.lineWidth = 3;
+
+					ctx.strokeText("Game Over", 500, 350);
+
+					//set text size to massive and bloody red,
+					//draw a big GAME OVER message in the middle of the canvas
+				}
     		}
 		</script>
 
